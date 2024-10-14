@@ -3,7 +3,7 @@ import threading
 
 def read_ip_ports(filename):
     with open(filename, 'r') as file:
-        return [line.strip().split(':') for line in file.readlines()]
+        return [(line.strip().split(':')[0], int(line.strip().split(':')[1]) if ':' in line else 21) for line in file.readlines()]
 
 def read_credentials(filename):
     with open(filename, 'r') as file:
@@ -12,7 +12,7 @@ def read_credentials(filename):
 def test_login(ip, port, credentials, f):
     ftp = FTP_TLS()
     try:
-        ftp.connect(ip, int(port))
+        ftp.connect(ip, port)
         ftp.auth()
         ftp.prot_p()
 
